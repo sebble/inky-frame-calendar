@@ -58,13 +58,17 @@ def draw_month_days(display, DATE, TODAY):
             display.text(str(days[row * 7 + col]), x, y, col_width, font_size)
         
         if str(days[row * 7]) != "" or str(days[row * 7 + 6]) != "":
-            if row + 23 == 27:
+            
+            if str(days[row * 7]) != "":
+                valid_date = (DATE["year"], DATE["month"], days[row * 7])
+            elif str(days[row * 7 + 6]) != "":
+                valid_date = (DATE["year"], DATE["month"], days[row * 7 + 6])
+                
+            if dates.week_of_year(valid_date[0], valid_date[1], valid_date[2]) == dates.week_of_year(TODAY["year"], TODAY["month"], TODAY["day"]):
                 draw.outline(display, 0, y, week_margin - 20, 24, 0, TAUPE, TAUPE)
             display.set_pen(BLACK)
-            if str(days[row * 7]) != "":
-                display.text("Wk " + str(dates.week_of_year(DATE["year"], DATE["month"], days[row * 7])), 0, y + 6, week_margin, 2)
-            elif str(days[row * 7 + 6]) != "":
-                display.text("Wk " + str(dates.week_of_year(DATE["year"], DATE["month"], days[row * 7 + 6])), 0, y + 6, week_margin, 2)
+            display.text("Wk " + str(dates.week_of_year(valid_date[0], valid_date[1], valid_date[2])), 0, y + 6, week_margin, 2)
+
 
 
 def update(display, DATE, TODAY):

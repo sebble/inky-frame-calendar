@@ -7,6 +7,9 @@ import inky_frame
 import json
 import network
 import os
+from secrets import WIFI_PASSWORD, WIFI_SSID
+import ntp
+import gc
 
 # Pin setup for VSYS_HOLD needed to sleep and wake.
 HOLD_VSYS_EN_PIN = 2
@@ -84,12 +87,13 @@ def clear_button_leds():
 
 
 def network_connect(SSID, PSK):
+    print("CONNECT")
     # Enable the Wireless
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
 
     # Number of attempts to make before timeout
-    max_wait = 10
+    max_wait = 20
 
     # Sets the Wireless LED pulsing and attempts to connect to your local network.
     pulse_network_led()
@@ -109,6 +113,9 @@ def network_connect(SSID, PSK):
     if wlan.status() != 3:
         stop_network_led()
         led_warn.on()
+        print("ERROR")
+    else:
+        print("CONNECTED")
 
 
 def file_exists(filename):
@@ -142,7 +149,4 @@ def today():
     print(ts)
     gc.collect()
     return {"year": ts[0], "month": ts[1], "day": ts[2],
-            "dow": day_of_week(ts[0], ts[1], ts[2]),
-            "week": week_of_year(ts[0], ts[1], ts[2]),
-            "doy": day_of_year(ts[0], ts[1], ts[2]),
             "time": str(ts[3]) + ":" + str(ts[4])}
