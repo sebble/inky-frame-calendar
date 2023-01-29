@@ -2,6 +2,8 @@
 
 Work in progress.
 
+![inky_frame.jpg]("Month view of 5.7" Inky Frame")
+
 ## Features
 
 - [ ] Low power
