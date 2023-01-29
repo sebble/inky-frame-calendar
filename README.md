@@ -10,6 +10,7 @@ Work in progress.
 - [x] Month view
 - [ ] Week view
 - [ ] Load data from ICS URL
+- [x] ISO Week
 
 ## Getting Started
 

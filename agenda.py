@@ -1,4 +1,21 @@
 
+BLACK = 0
+WHITE = 1
+GREEN = 2
+BLUE = 3
+RED = 4
+YELLOW = 5
+ORANGE = 6
+TAUPE = 7
+
+AGENDA = [
+    {"start": "All Day", "end": "", "description": "All day event", "colour": BLUE},
+    {"start": "All Day", "end": "", "description": "All day event", "colour": RED},
+    {"start": "08:00 - 10:00", "end": "10:00", "description": "Morning things", "colour": GREEN},
+    {"start": "19:00 - 21:00", "end": "21:00", "description": "An evening activity", "colour": ORANGE},
+    {"start": "Tomorrow", "end": "", "description": "Another event", "colour": WHITE}
+]
+
 def draw_agenda_items(items = AGENDA):
     last_start = ""
     date_x = 0
@@ -26,4 +43,5 @@ def draw_agenda():
     draw.nav((("Prev", 30), ("Week", 30), ("TODAY", 20), ("Month", 17), ("Next", 29)))
     # get_calendar()
     draw_agenda_items()
+    draw.time(display, TODAY)
     display.update()

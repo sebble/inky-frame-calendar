@@ -9,10 +9,12 @@ import time
 import network
 from secrets import WIFI_PASSWORD, WIFI_SSID, ICS_URL
 import gc
-from dates import day_of_week
+from dates import day_of_week, week_of_year, day_of_year
 import draw
 import ical
 import month, agenda, week
+import inky_helper
+
 
 def init():
     # Start connection
@@ -48,18 +50,8 @@ YELLOW = 5
 ORANGE = 6
 TAUPE = 7
 
-week_margin = 80
-title_margin = 50
 
 display.set_font("bitmap8")
-
-AGENDA = [
-    {"start": "All Day", "end": "", "description": "All day event", "colour": BLUE},
-    {"start": "All Day", "end": "", "description": "All day event", "colour": RED},
-    {"start": "08:00 - 10:00", "end": "10:00", "description": "Morning things", "colour": GREEN},
-    {"start": "19:00 - 21:00", "end": "21:00", "description": "An evening activity", "colour": ORANGE},
-    {"start": "Tomorrow", "end": "", "description": "Another event", "colour": WHITE}
-]
 
 print("starting...")
 
@@ -74,68 +66,54 @@ def get_today():
     date = ntp.fetch()
     print(date)
     gc.collect()
-    return {"year": date[0], "month": date[1], "day": date[2], "dow": day_of_week(date[0], date[1], date[2])}
+    return {"year": date[0], "month": date[1], "day": date[2],
+            "dow": day_of_week(date[0], date[1], date[2]),
+            "week": week_of_year(date[0], date[1], date[2]),
+            "doy": day_of_year(date[0], date[1], date[2]),
+            "time": str(date[3]) + ":" + str(date[4])}
 
 
 TODAY = get_today()
 DATE = get_today()
 print(DATE)
 # agenda.draw_agenda()
-month.update()
+# month.update(display, DATE, TODAY)
 
-from pimoroni import ShiftRegister
-from machine import Pin
-
-# Inky Frame uses a shift register to read the buttons
-SR_CLOCK = 8
-SR_LATCH = 9
-SR_OUT = 10
-
-sr = ShiftRegister(SR_CLOCK, SR_LATCH, SR_OUT)
-# set up the button LEDs
-button_a_led = Pin(11, Pin.OUT)
-button_b_led = Pin(12, Pin.OUT)
-button_c_led = Pin(13, Pin.OUT)
-button_d_led = Pin(14, Pin.OUT)
-button_e_led = Pin(15, Pin.OUT)
+# TODO: check state file before updating screen
+import inky_frame
 
 while True:
-    button_a_led.off()
-    button_b_led.off()
-    button_c_led.off()
-    button_d_led.off()
-    button_e_led.off()
-
-    # read the shift register
-    # we can tell which button has been pressed by checking if a specific bit is 0 or 1
-    result = sr.read()
-    button_a = sr[7]
-    button_b = sr[6]
-    button_c = sr[5]
-    button_d = sr[4]
-    button_e = sr[3]
-
-    if button_a == 1:
-        button_a_led.on()
+    inky_frame.button_a.led_off()
+    inky_frame.button_b.led_off()
+    inky_frame.button_c.led_off()
+    inky_frame.button_d.led_off()
+    inky_frame.button_e.led_off()
+    
+    if inky_frame.button_a.read():
+        inky_frame.button_a.led_on()
         if DATE["month"] == 1:
             DATE["year"] -= 1
             DATE["month"] = 12
         else:
             DATE["month"] -= 1
-        draw_month()
-    elif button_b == 1:
-        button_b_led.on()
-    elif button_c == 1:
-        button_c_led.on()
+        month.update(display, DATE, TODAY)
+    elif inky_frame.button_b.read():
+        inky_frame.button_b.led_on()
+    elif inky_frame.button_c.read():
+        inky_frame.button_c.led_on()
         DATE = get_today()
-        draw_month()
-    elif button_d == 1:
-        button_d_led.on()
-    elif button_e == 1:
-        button_e_led.on()
+        month.update(display, DATE, TODAY)
+    elif inky_frame.button_d.read():
+        inky_frame.button_d.led_on()
+    elif inky_frame.button_e.read():
+        inky_frame.button_e.led_on()
         if DATE["month"] == 12:
             DATE["year"] += 1
             DATE["month"] = 1
         else:
             DATE["month"] += 1
-        draw_month()
+        month.update(display, DATE, TODAY)
+
+    
+# inky_helper.sleep(10)
+machine.reset()

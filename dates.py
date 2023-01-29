@@ -12,6 +12,7 @@ def day_of_year(year, month, day):
         total += days_in_month(year, month)
         cur += 1
     total += day
+    return total
 
 def week_number(year, month, day):
     """Calculate the ISO Week for a given date"""
@@ -48,3 +49,13 @@ MONS = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "N
 def mon_str(mon):
     """Strings for month (short)"""
     return MONS[mon - 1]
+
+def week_of_year(year, month, day):
+    dow = day_of_week(year, 1, 4)
+    first_day_of_year_of_week1 = 4 - dow
+    doy = day_of_year(year, month, day)
+    isoweek = int((doy - first_day_of_year_of_week1) / 7) + 1
+    if doy - first_day_of_year_of_week1 < 0:
+        return week_of_year(year -1, 12, 31)
+    else:
+        return isoweek
