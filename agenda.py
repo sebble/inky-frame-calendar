@@ -1,3 +1,5 @@
+import draw
+from dates import day_str, mon_str, week_of_year, day_of_week
 
 BLACK = 0
 WHITE = 1
@@ -16,7 +18,7 @@ AGENDA = [
     {"start": "Tomorrow", "end": "", "description": "Another event", "colour": WHITE}
 ]
 
-def draw_agenda_items(items = AGENDA):
+def draw_agenda_items(display, DATE, TODAY, items = AGENDA):
     last_start = ""
     date_x = 0
     date_y = 50
@@ -32,16 +34,17 @@ def draw_agenda_items(items = AGENDA):
             last_start = item["start"]
             display.set_pen(BLACK)
             display.text(item["start"], date_x, offset_y, description_x, date_size)
-        draw.outline(description_x, offset_y, 600 - description_x - 2*spacing, item_height - 2*spacing, spacing, item["colour"], item["colour"])
+        draw.outline(display, description_x, offset_y, 600 - description_x - 2*spacing, item_height - 2*spacing, spacing, item["colour"], item["colour"])
         display.set_pen(TAUPE)
         display.text(item["description"], description_x, offset_y, 600 - description_x, descr_size)
 
-def draw_agenda():
+def draw_agenda(display, DATE, TODAY):
     display.set_pen(WHITE)
     display.clear()
-    draw.title(day_str(DATE["dow"]) + " " + str(DATE["day"]) + "th " + mon_str(DATE["month"]) + " " + str(DATE["year"]) + " - Week 17")
-    draw.nav((("Prev", 30), ("Week", 30), ("TODAY", 20), ("Month", 17), ("Next", 29)))
+    dow = day_of_week(DATE["year"], DATE["month"], DATE["day"])
+    draw.title(display, day_str(dow) + " " + str(DATE["day"]) + "th " + mon_str(DATE["month"]) + " " + str(DATE["year"]) + " - Week " + str(week_of_year(DATE["year"], DATE["month"], DATE["day"])))
+    draw.nav(display, (("Prev", 30, False), ("Agenda", 10, False), ("TODAY", 20, False), ("Month", 17, True), ("Next", 29, False)))
     # get_calendar()
-    draw_agenda_items()
+    draw_agenda_items(display, DATE, TODAY)
     draw.time(display, TODAY)
-    display.update()
+    draw.update(display)

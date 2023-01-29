@@ -15,7 +15,7 @@ def draw_weekdays(display, DATE, TODAY):
     col_width = int((600 - week_margin) / 7)
     font_size = 3
     if DATE["year"] == TODAY["year"] and DATE["month"] == TODAY["month"]:
-        today = TODAY["dow"] # 0: Monday
+        today = dates.day_of_week(TODAY["year"], TODAY["month"], TODAY["day"]) # 0: Monday
     else:
         today = 9 # impossible value
     shift = 6
@@ -71,9 +71,9 @@ def update(display, DATE, TODAY):
     display.set_pen(WHITE)
     display.clear()
     draw.title(display, dates.month_str(DATE["month"]) + " " + str(DATE["year"]), 150)
-    draw.nav(display, (("Prev", 30), ("Agenda", 10), ("TODAY", 20), ("Week", 30), ("Next", 29)))
+    draw.nav(display, (("Prev", 30, True), ("Agenda", 10, True), ("TODAY", 20, True), ("Month", 17, False), ("Next", 29, True)))
     # get_calendar()
     draw_weekdays(display, DATE, TODAY)
     draw_month_days(display, DATE, TODAY)
     draw.time(display, TODAY)
-    display.update()
+    draw.update(display)

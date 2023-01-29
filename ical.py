@@ -1,3 +1,7 @@
+
+
+from urllib import urequest
+
 def read_until(stream, char):
     result = b""
     while True:
