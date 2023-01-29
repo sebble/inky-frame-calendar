@@ -137,7 +137,7 @@ def load_state(default_state):
 
 
 def today():
-    inky_helper.network_connect(WIFI_SSID, WIFI_PASSWORD)
+    network_connect(WIFI_SSID, WIFI_PASSWORD)
     ts = ntp.fetch()
     print(ts)
     gc.collect()
