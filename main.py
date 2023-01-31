@@ -37,10 +37,9 @@ def get_calendar():
     res = get_ical(ICS_URL)
     print(res)
 
-
-TODAY = inky_helper.today()
-DATE = inky_helper.today()
-print(DATE)
+#TODAY = inky_helper.today()
+#DATE = inky_helper.today()
+#print(DATE)
 
 
 # agenda.draw_agenda(display, DATE, TODAY)

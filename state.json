@@ -1,0 +1,5 @@
+{
+    "view": "month",
+    "date": {"year": 1990, "month": 1, "day": 1},
+    "today": {"year": 1990, "month": 1, "day": 1, "time": "00:00"},
+}

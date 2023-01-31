@@ -38,7 +38,7 @@ def draw_month_days(display, DATE, TODAY):
         today = 99 # impossible value
     month_start = dates.day_of_week(DATE["year"], DATE["month"], 1)
     font_size = 5
-    days = [""] * month_start + days + [""] * 14
+    days = [""] * month_start + days[:dates.days_in_month(DATE["year"], DATE["month"])] + [""] * 14
     if DATE["year"] < TODAY["year"] or (DATE["month"] <= TODAY["month"]  and DATE["year"] >= TODAY["year"]):
         past = True
     else:

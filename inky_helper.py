@@ -148,5 +148,7 @@ def today():
     ts = ntp.fetch()
     print(ts)
     gc.collect()
+    h = "0" + str(ts[3]) if ts[3] < 10 else str(ts[3])
+    m = "0" + str(ts[4]) if ts[4] < 10 else str(ts[4])
     return {"year": ts[0], "month": ts[1], "day": ts[2],
-            "time": str(ts[3]) + ":" + str(ts[4])}
+            "time": h + ":" + m}

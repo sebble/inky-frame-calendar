@@ -35,7 +35,7 @@ def nav(display, buttons):
 def time(display, TODAY):
     display.set_font("bitmap8")
     display.set_pen(BLACK)
-    display.text(TODAY["time"], 560, 0, 100, 2)
+    display.text(TODAY["time"], 556, 0, 100, 2)
     display.set_font("bitmap8")
 
 def update(display):
