@@ -77,8 +77,9 @@ inky_frame.button_c.led_off()
 inky_frame.button_d.led_off()
 inky_frame.button_e.led_off()
 
-inky_helper.sleep(255)
 inky_frame.button_c.led_on()
 app.today()
 inky_frame.button_c.led_off()
+inky_helper.sleep(255)
 machine.reset()
+

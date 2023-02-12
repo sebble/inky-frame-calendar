@@ -1,5 +1,1 @@
-{
-    "view": "month",
-    "date": {"year": 1990, "month": 1, "day": 1},
-    "today": {"year": 1990, "month": 1, "day": 1, "time": "00:00"},
-}
+{"view": "month", "date": {"time": "09:42", "month": 2, "year": 2023, "day": 12}, "today": {"time": "09:42", "month": 2, "year": 2023, "day": 12}}

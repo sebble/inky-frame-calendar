@@ -7,23 +7,20 @@ from secrets import FUNCTION_URL
 from inky_helper import today
 
 def get_agenda():
-    print("GET_AGENDA")
-    today()
-    #gc.collect()
-    print("FREE")
+    print("get_agenda")
+    gc.collect()
     try:
-        # Grab the data
-        print(FUNCTION_URL)
         socket = urequest.urlopen(FUNCTION_URL)
-        print("JSON")
+        print("socket")
         j = ujson.load(socket)
+        print("json")
         socket.close()
         print(j)
         gc.collect()
+        print("cleaned")
         return j
-    except OSError as e:
-        print(e)
-    print("ERROR")
+    except OSError:
+        print("ERROR LOADING ICAL")
     return []
 
 BLACK = 0
@@ -61,7 +58,7 @@ def draw_agenda_items(display, DATE, TODAY, items = AGENDA):
             display.set_pen(BLACK)
             display.text(item["start"], date_x, offset_y, description_x, date_size)
         draw.outline(display, description_x, offset_y, 600 - description_x - 2*spacing, item_height - 2*spacing, spacing, item["colour"], item["colour"])
-        display.set_pen(TAUPE)
+        display.set_pen(WHITE)
         display.text(item["description"], description_x, offset_y, 600 - description_x, descr_size)
 
 def draw_agenda(display, DATE, TODAY):

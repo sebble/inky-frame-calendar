@@ -93,7 +93,7 @@ def network_connect(SSID, PSK):
     wlan.active(True)
 
     # Number of attempts to make before timeout
-    max_wait = 20
+    max_wait = 50
 
     # Sets the Wireless LED pulsing and attempts to connect to your local network.
     pulse_network_led()
@@ -103,7 +103,7 @@ def network_connect(SSID, PSK):
         if wlan.status() < 0 or wlan.status() >= 3:
             break
         max_wait -= 1
-        print('waiting for connection...')
+        print('waiting for connection... %d' % wlan.status())
         time.sleep(1)
 
     stop_network_led()
@@ -114,8 +114,10 @@ def network_connect(SSID, PSK):
         stop_network_led()
         led_warn.on()
         print("ERROR")
+        return False
     else:
         print("CONNECTED")
+        return True
 
 
 def file_exists(filename):
